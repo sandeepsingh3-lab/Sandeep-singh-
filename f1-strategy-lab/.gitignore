@@ -8,3 +8,6 @@ reports/*.json
 data/raw/*
 data/processed/*
 .DS_Store
+.fastf1_cache/
+reports/*.json
+data/processed/*.csv
