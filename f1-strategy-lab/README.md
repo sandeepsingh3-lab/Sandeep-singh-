@@ -56,3 +56,20 @@ The `app/` directory is a static HTML/CSS/JavaScript app suitable for Vercel. Se
 
 ## License
 MIT License. See `LICENSE`.
+
+
+## Historical-data experiment (new)
+
+FastF1 is used to collect public historical session timing data. The collector defaults to completed seasons 2018–2025 and writes a local CSV; detailed timing data is generally available from 2018 onward. See the [FastF1 data reference](https://github.com/theOehrly/Fast-F1/blob/main/docs/data_reference/index.rst) and [timing data reference](https://github.com/theOehrly/Fast-F1/blob/main/docs/api_reference/timing_data.rst).
+
+### Run the historical pipeline
+
+```bash
+pip install -r requirements.txt
+python src/collect_fastf1_data.py
+python src/train_historical.py
+```
+
+The collector labels whether a driver enters the pits on a lap and shifts predictors to the previous completed lap. The model trains on seasons through 2022, selects a decision threshold on 2023, and evaluates once on 2024–2025. It reports accuracy, precision, recall, F1, average precision, ROC AUC, confusion matrix and a majority-class baseline. The downloaded CSV, cache, trained model and metrics are generated locally and are not committed by default.
+
+**Interpretation caution:** pit-entry prediction is not the same as optimal pit strategy. A model can learn historical correlations but cannot establish the best action without modelling alternatives, pit-lane loss, tyre pace, traffic, weather, safety-car probabilities and race position. Do not use this offline baseline for live race decisions.
